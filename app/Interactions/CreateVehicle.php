@@ -24,7 +24,8 @@ class CreateVehicle extends Interaction
     ];
 
 
-    public function execute() {
+    public function execute() 
+    {
         return app(VehicleRepository::class)->save($this->params);
     }
 }

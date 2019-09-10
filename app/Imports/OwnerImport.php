@@ -27,7 +27,7 @@ class OwnerImport extends Import implements ImportInterface
     public function getCompanyId($row)
     {
         $data = app(CompanyImport::class)->import($row);
-        if($this->validate($data, 'Company import failed. ')){
+        if($this->validate($data, 'Company import failed. ')) {
             return $data->result->id;
         }
         return null;

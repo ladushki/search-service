@@ -3,11 +3,11 @@
 
 namespace App\PhpUnit\Imports;
 
-use App\Imports\TransmissionTypeImport;
+use App\Imports\VehicleModelImport;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class TransmissionTypeImportTest extends TestCase
+class VehicalModelImportTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -30,25 +30,26 @@ class TransmissionTypeImportTest extends TestCase
 
     public function testMap()
     {
-        $import = new TransmissionTypeImport();
+        $import = new VehicleModelImport();
         $mapped = $import->map($this->row);
-        $this->assertEquals(['name' => "manual"], $mapped);
+        $this->assertEquals(['name' => 'Corsa', 'manufacturer_id' =>1], $mapped);
     }
 
     public function testImportSuccesfull()
     {
-        $import = new TransmissionTypeImport();
+        $import = new VehicleModelImport();
         $imported = $import->import($this->row);
         $this->assertTrue($imported->valid);
         $this->assertEmpty($imported->errors);
         $this->assertNotEmpty($imported->result);
 
-        $this->assertEquals( 'manual', $imported->result->name);
+        $this->assertEquals( 'Corsa', $imported->result->name);
+        $this->assertEquals( 'Vauxhall', $imported->result->manufacturer->name);
     }
 
     public function testImportFails()
     {
-        $import = new TransmissionTypeImport();
+        $import = new VehicleModelImport();
         $imported = $import->import(['name'=>'']);
         $this->assertFalse($imported->valid);
         $this->assertNotEmpty($imported->errors);

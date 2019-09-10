@@ -21,7 +21,8 @@ class CreateTransmissionType extends Interaction
      *
      * @return void
      */
-    public function execute() {
+    public function execute() 
+    {
         return app(TransmissionTypeRepository::class)->save($this->params);
     }
 }

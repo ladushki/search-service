@@ -21,7 +21,8 @@ class CreateFuelType extends Interaction
      *
      * @return void
      */
-    public function execute() {
+    public function execute() 
+    {
         return app(FuelTypeRepository::class)->save($this->params);
     }
 }

@@ -222,4 +222,6 @@ return [
 
     ],
 
+    'file'=> storage_path('imports/vehicles.csv'),
+
 ];

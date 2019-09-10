@@ -3,17 +3,12 @@
 
 namespace App\PhpUnit\Imports;
 
-
-use App\Company;
-use App\Imports\CompanyImport;
-use App\Imports\FuelTypeImport;
-use App\Imports\ManufacturerImport;
 use App\Imports\OwnerImport;
 use App\Imports\TransmissionTypeImport;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class TransmissionTypeImportTest extends TestCase
+class OwnerImportTest extends TestCase
 {
     use DatabaseMigrations;
 

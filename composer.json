@@ -25,10 +25,13 @@
         "phpunit/phpunit": "^8.3.3",
         "phpspec/phpspec": "^5.1.1",
         "phpmd/phpmd": "@stable",
-        "squizlabs/php_codesniffer": "2.*",
         "phploc/phploc": "^5.0.0",
         "sebastian/phpcpd": "^4.1.0",
-        "sensiolabs/security-checker": "^5.0.0"
+        "sensiolabs/security-checker": "^5.0.0",
+        "jakub-onderka/php-parallel-lint": "^1",
+        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-mockery": "^0.11",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "classmap": [
@@ -62,6 +65,29 @@
         ],
         "phpunit": [
             "vendor/bin/phpunit --colors=always"
+        ],
+        "lint": "parallel-lint app tests",
+        "phpcs": "phpcs app tests --standard=psr12 -sp --colors",
+        "phpstan": [
+            "phpstan analyse app -c phpstan.neon --level max --no-progress",
+            "phpstan analyse tests -c phpstan.neon --level 4 --no-progress"
+        ],
+        "phpunit-ci": "phpunit --verbose --coverage-clover build/logs/clover.xml",
+        "fix": [
+            "vendor/bin/phpcbf app/",
+            "vendor/bin/phpcbf tests/"
+        ],
+        "test": [
+            "@lint",
+            "@phpcs",
+            "@phpstan",
+            "@phpunit"
+        ],
+        "test-ci": [
+            "@lint",
+            "@phpcs",
+            "@phpstan",
+            "@phpunit-ci"
         ]
     },
     "config": {

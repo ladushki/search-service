@@ -4,7 +4,6 @@
 namespace App\Imports;
 
 use App\Exceptions\ImportException;
-use App\Exceptions\InvalidContentException;
 
 
 abstract class Import implements ImportInterface
@@ -23,8 +22,10 @@ abstract class Import implements ImportInterface
         if (!$ownerData->valid || !isset($ownerData->result->id)) {
 
             if ($this->stopOnError) {
-                throw new ImportException($message .
-                    implode('. ', (array)$ownerData->errors->all()));
+                throw new ImportException(
+                    $message .
+                    implode('. ', (array)$ownerData->errors->all())
+                );
             }
         }
         return $ownerData->valid;

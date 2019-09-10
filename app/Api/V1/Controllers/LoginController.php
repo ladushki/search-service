@@ -15,8 +15,8 @@ class LoginController extends Controller
     /**
      * Log the user in
      *
-     * @param LoginRequest $request
-     * @param JWTAuth $JWTAuth
+     * @param  LoginRequest $request
+     * @param  JWTAuth      $JWTAuth
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(LoginRequest $request, JWTAuth $JWTAuth)
@@ -35,10 +35,12 @@ class LoginController extends Controller
         }
 
         return response()
-            ->json([
+            ->json(
+                [
                 'status' => 'ok',
                 'token' => $token,
                 'expires_in' => Auth::guard()->factory()->getTTL() * 60
-            ]);
+                ]
+            );
     }
 }

@@ -22,8 +22,10 @@ class VehicleModelRepository extends Repository implements RepositoryInterface
 
     public function save(array $item)
     {
-        return $this->model->updateOrCreate(['name' => $item['name'], 'manufacturer_id' => $item['manufacturer_id']],
-            $item);
+        return $this->model->updateOrCreate(
+            ['name' => $item['name'], 'manufacturer_id' => $item['manufacturer_id']],
+            $item
+        );
     }
 
     public function exists(array $item): bool

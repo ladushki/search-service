@@ -21,7 +21,8 @@ class CreateManufacture extends Interaction
      *
      * @return void
      */
-    public function execute() {
+    public function execute() 
+    {
         return app(ManufactureRepository::class)->save($this->params);
     }
 }

@@ -22,7 +22,8 @@ class CreateOwner extends Interaction
      *
      * @return void
      */
-    public function execute() {
+    public function execute() 
+    {
         return app(OwnerRepository::class)->save($this->params);
     }
 }

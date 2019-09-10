@@ -3,8 +3,6 @@
 
 namespace App\Functional\Api\V1\Controllers;
 
-
-use App\Api\V1\Resources\VehicleResource;
 use App\Company;
 use App\FuelType;
 use App\Manufacturer;

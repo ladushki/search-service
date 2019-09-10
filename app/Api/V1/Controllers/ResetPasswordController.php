@@ -25,17 +25,21 @@ class ResetPasswordController extends Controller
         }
 
         if(!Config::get('boilerplate.reset_password.release_token')) {
-            return response()->json([
+            return response()->json(
+                [
                 'status' => 'ok',
-            ]);
+                ]
+            );
         }
 
         $user = User::where('email', '=', $request->get('email'))->first();
 
-        return response()->json([
+        return response()->json(
+            [
             'status' => 'ok',
             'token' => $JWTAuth->fromUser($user)
-        ]);
+            ]
+        );
     }
 
     /**
@@ -51,7 +55,7 @@ class ResetPasswordController extends Controller
     /**
      * Get the password reset credentials from the request.
      *
-     * @param  ResetPasswordRequest  $request
+     * @param  ResetPasswordRequest $request
      * @return array
      */
     protected function credentials(ResetPasswordRequest $request)
@@ -64,8 +68,8 @@ class ResetPasswordController extends Controller
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword $user
+     * @param  string                                      $password
      * @return void
      */
     protected function reset($user, $password)

@@ -3,9 +3,6 @@
 
 namespace App\PhpUnit\Imports;
 
-
-use App\Company;
-use App\Imports\CompanyImport;
 use App\Imports\ManufacturerImport;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

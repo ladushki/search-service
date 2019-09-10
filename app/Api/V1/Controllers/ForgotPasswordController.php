@@ -26,9 +26,11 @@ class ForgotPasswordController extends Controller
             throw new HttpException(500);
         }
 
-        return response()->json([
+        return response()->json(
+            [
             'status' => 'ok'
-        ], 200);
+            ], 200
+        );
     }
 
     /**

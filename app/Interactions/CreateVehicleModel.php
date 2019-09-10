@@ -22,7 +22,8 @@ class CreateVehicleModel extends Interaction
      *
      * @return void
      */
-    public function execute() {
-       return app(VehicleModelRepository::class)->save($this->params);
+    public function execute() 
+    {
+        return app(VehicleModelRepository::class)->save($this->params);
     }
 }

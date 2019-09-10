@@ -32,7 +32,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Automatically creates hash for the user password.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return void
      */
     public function setPasswordAttribute($value)

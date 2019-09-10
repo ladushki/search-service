@@ -22,7 +22,8 @@ class CreateCompany extends Interaction
      *
      * @return Company
      */
-    public function execute() {
+    public function execute() 
+    {
         return app(CompanyRepository::class)->save($this->params);
     }
 }
