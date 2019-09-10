@@ -14,8 +14,6 @@ Once the project creation procedure will be completed, run the `php artisan migr
 
 ### Controllers
 
-You don't have to worry about authentication and password recovery anymore. I created four controllers you can find in the `App\Api\V1\Controllers` for those operations.
-
 For each controller there's an already setup route in `routes/api.php` file:
 
 * `GET api/import`, imports data from csv;
