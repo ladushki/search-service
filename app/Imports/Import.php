@@ -12,8 +12,8 @@ abstract class Import implements ImportInterface
     protected $stopOnError = false;
 
     /**
-     * @param Object $ownerData
-     * @param string $message
+     * @param  Object $ownerData
+     * @param  string $message
      * @return boolean
      * @throws ImportException
      */

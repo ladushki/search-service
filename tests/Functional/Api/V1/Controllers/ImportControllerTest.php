@@ -4,21 +4,21 @@
 namespace App\Functional\Api\V1\Controllers;
 
 
-use App\Api\V1\Controllers\ImportController;
 use App\Exceptions\InvalidContentException;
 use App\Handlers\ImportVehicleHandler;
 use App\Imports\VehicleImport;
-use Illuminate\Support\Facades\Storage;
-use Mockery;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Storage;
+use Mockery;
 
 class ImportControllerTest extends TestCase
 {
+
     use DatabaseMigrations;
 
 
-    public function tearDown():void
+    public function tearDown(): void
     {
         parent::tearDown();
         Mockery::close();
@@ -35,23 +35,24 @@ class ImportControllerTest extends TestCase
         $this->get('api/import-vehicle', [])->assertExactJson($expected);
     }
 
-    public function test_wrong_file()
+    public function testWrongFile()
     {
         Storage::fake('local');
         $filename = Storage::disk('local')->path('vehicles1.csv');
         config()->set('api.file', $filename);
 
-        $service          = Mockery::mock(VehicleImport::class);
-        $object = new ImportVehicleHandler($service);
+        $service = Mockery::mock(VehicleImport::class);
+        $object  = new ImportVehicleHandler($service);
         $this->expectException(InvalidContentException::class);
-        $this->invokeMethod($object, 'load', ['filename' =>$filename]);
+        $this->invokeMethod($object, 'load', ['filename' => $filename]);
     }
 
     public function invokeMethod(&$object, $methodName, array $parameters = array())
     {
         $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
+        $method     = $reflection->getMethod($methodName);
         $method->setAccessible(true);
+
         return $method->invokeArgs($object, $parameters);
     }
 }

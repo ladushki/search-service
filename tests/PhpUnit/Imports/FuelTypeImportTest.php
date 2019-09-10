@@ -9,12 +9,14 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class FuelTypeImportTest extends TestCase
 {
+
     use DatabaseMigrations;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->row = ["A" => "RS014SR",
+        $this->row = [
+            "A" => "RS014SR",
             "B" => 2015.0,
             "C" => "Rachel Smiley",
             "D" => "Mathematician",
@@ -25,7 +27,8 @@ class FuelTypeImportTest extends TestCase
             "I" => "Vauxhall",
             "J" => "Corsa",
             "K" => 5.0,
-            "L" => 4.0,];
+            "L" => 4.0,
+        ];
     }
 
     public function testMap()
@@ -37,19 +40,19 @@ class FuelTypeImportTest extends TestCase
 
     public function testImportSuccesfull()
     {
-        $import = new FuelTypeImport();
+        $import   = new FuelTypeImport();
         $imported = $import->import($this->row);
         $this->assertTrue($imported->valid);
         $this->assertEmpty($imported->errors);
         $this->assertNotEmpty($imported->result);
 
-        $this->assertEquals( 'petrol', $imported->result->name);
+        $this->assertEquals('petrol', $imported->result->name);
     }
 
     public function testImportFails()
     {
-        $import = new FuelTypeImport();
-        $imported = $import->import(['name'=>'']);
+        $import   = new FuelTypeImport();
+        $imported = $import->import(['name' => '']);
         $this->assertFalse($imported->valid);
         $this->assertNotEmpty($imported->errors);
     }

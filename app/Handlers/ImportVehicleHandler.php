@@ -14,14 +14,15 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class ImportVehicleHandler
 {
+
     protected $content;
     public $filename;
     public $status = [
-        'filename' => '',
-        'inserted' => 0,
-        'updated' => 0,
-        'failed' => 0,
-        'errors' => [],
+        'filename'     => '',
+        'inserted'     => 0,
+        'updated'      => 0,
+        'failed'       => 0,
+        'errors'       => [],
         'is_completed' => false,
     ];
     /**
@@ -56,6 +57,7 @@ class ImportVehicleHandler
         } else {
             throw new InvalidContentException('Unable to open file.');
         }
+
         return $this->resolveData($spreadsheet);
     }
 
@@ -66,7 +68,7 @@ class ImportVehicleHandler
     public function run(): array
     {
         $this->status['filename'] = $this->getFilename();
-        $content = $this->getContent();
+        $content                  = $this->getContent();
         DB::beginTransaction();
         try {
             $this->importFromArray($content);
@@ -79,13 +81,16 @@ class ImportVehicleHandler
             DB::rollBack();
             throw new ImportException('Error:' . $e->getMessage());
         }
+
         return $this->status;
     }
 
     /**
      * @param \PhpOffice\PhpSpreadsheet\Spreadsheet $spreadsheet
+     *
      * @return \App\Handlers\ImportVehicleHandler
      * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws InvalidContentException
      */
     public function resolveData(Spreadsheet $spreadsheet): ImportVehicleHandler
     {
@@ -94,6 +99,7 @@ class ImportVehicleHandler
         }
         $output = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);;
         $this->setContent($output);
+
         return $this;
     }
 
@@ -116,64 +122,69 @@ class ImportVehicleHandler
 
     public function getContent()
     {
-            return $this->content;
+        return $this->content;
     }
 
     /**
-     * @param $content
+     * @param  $content
+     *
      * @return \App\Handlers\ImportVehicleHandler
      */
     public function setContent($content): ImportVehicleHandler
     {
         $this->content = $content;
+
         return $this;
     }
 
     /**
      * @param array $data
+     *
      * @return array
      */
     public function importFromArray(array $data): array
     {
-        $counter = 0;
+        $counter    = 0;
         $collection = $this->removeHeader($data);
-        $collection->each(
-            function ($row) use (&$counter) {
-                $counter++;
-                $outcome = $this->importService->import($row);
+        $collection->each(function ($row) use (&$counter) {
+            $counter++;
+            $outcome = $this->importService->import($row);
 
-                if ($outcome->valid) {
-                    if ($outcome->result->wasRecentlyCreated) {
-                        $this->status['inserted']++;
-                    } else {
-                        $this->status['updated']++;
-                    }
-                    return [
-                    'success' => true,
-                    'store' => $outcome->result,
-                    ];
+            if ($outcome->valid) {
+                if ($outcome->result->wasRecentlyCreated) {
+                    $this->status['inserted']++;
+                } else {
+                    $this->status['updated']++;
                 }
-                $this->status['failed']++;
-                $key = !empty($row['number']) ? $row['number'] : 0;
-                $this->status['errors'][$key] = $outcome->errors->toArray();
+
                 return [
-                'success' => false,
-                'errors' => $this->status['errors'][$key],
+                    'success' => true,
+                    'store'   => $outcome->result,
                 ];
             }
-        );
+            $this->status['failed']++;
+            $key                          = !empty($row['number']) ? $row['number'] : 0;
+            $this->status['errors'][$key] = $outcome->errors->toArray();
+
+            return [
+                'success' => false,
+                'errors'  => $this->status['errors'][$key],
+            ];
+        });
 
         return $this->status;
     }
 
     /**
-     * @param $data
+     * @param  $data
+     *
      * @return \Illuminate\Support\Collection
      */
     private function removeHeader($data): \Illuminate\Support\Collection
     {
         $collection = collect($data);
         $collection->shift();
+
         return $collection;
     }
 }

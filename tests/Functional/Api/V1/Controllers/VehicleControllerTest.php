@@ -15,13 +15,13 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class VehicleControllerTest extends TestCase
 {
+
     use DatabaseMigrations;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->createVehicle();
-
     }
 
     public function test404()
@@ -32,7 +32,8 @@ class VehicleControllerTest extends TestCase
 
     public function testWillShowCorrectContentWithoutFilter()
     {
-        $expected = json_decode('[{"colour":"red","fuel_type":"dizel","license_plate":"12232423pp","manufacturer":"Reno","model":"Clio","num_doors":"5","num_seats":"5","owner_company":"Test","owner_name":"Ted Red","owner_profession":"teacher","transmission":"auto","year_of_purchase":"2019"}]');
+        $expected = json_decode(
+            '[{"colour":"red","fuel_type":"dizel","license_plate":"12232423pp", "manufacturer":"Reno","model":"Clio","num_doors":"5","num_seats":"5","owner_company":"Test","owner_name":"Ted Red","owner_profession":"teacher","transmission":"auto","year_of_purchase":"2019"}]');
         $this->get('api/vehicles', [])->assertExactJson($expected);
     }
 
@@ -53,7 +54,6 @@ class VehicleControllerTest extends TestCase
         $this->get('api/vehicles?year=2019', [])->assertExactJson($expected)->assertJsonCount(1);
         $this->get('api/vehicles', [])->assertJsonCount(2);
         $this->get('api/vehicles?license_plate=1', [])->assertJsonCount(2);
-
     }
 
     private function createVehicle($data = ['plate' => '12232423pp', 'year' => 2019]): void
@@ -79,29 +79,29 @@ class VehicleControllerTest extends TestCase
         $manufacturer->save();
 
         $model = new VehicleModel([
-            'name' => 'Clio',
-            'manufacturer_id' => $manufacturer->id
+            'name'            => 'Clio',
+            'manufacturer_id' => $manufacturer->id,
         ]);
         $model->save();
 
         $owner = new Owner([
-            'full_name' => 'Ted Red',
+            'full_name'  => 'Ted Red',
             'profession' => 'teacher',
-            'company_id' => $company->id
+            'company_id' => $company->id,
         ]);
         $owner->save();
 
         $vehicle = new Vehicle([
-            'license_plate' => $data['plate'],
-            'owner_id' => $owner->id,
-            'password' => '123456',
-            'year_of_purchase' => $data['year'],
-            'color' => 'red',
-            'seats' => '5',
-            'doors' => '5',
-            'fuel_type_id' => $fuelType->id,
+            'license_plate'        => $data['plate'],
+            'owner_id'             => $owner->id,
+            'password'             => '123456',
+            'year_of_purchase'     => $data['year'],
+            'color'                => 'red',
+            'seats'                => '5',
+            'doors'                => '5',
+            'fuel_type_id'         => $fuelType->id,
             'transmission_type_id' => $ttType->id,
-            'vehicle_model_id' => $model->id,
+            'vehicle_model_id'     => $model->id,
         ]);
 
         $vehicle->save();

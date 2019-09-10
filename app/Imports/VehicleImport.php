@@ -68,7 +68,7 @@ class VehicleImport extends Import implements ImportInterface
     }
 
     /**
-     * @param $data
+     * @param  $data
      * @return \Illuminate\Support\Collection
      */
     private function removeHeader($data): \Illuminate\Support\Collection

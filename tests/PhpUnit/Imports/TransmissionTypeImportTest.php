@@ -9,12 +9,14 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TransmissionTypeImportTest extends TestCase
 {
+
     use DatabaseMigrations;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->row = ["A" => "RS014SR",
+        $this->row = [
+            "A" => "RS014SR",
             "B" => 2015.0,
             "C" => "Rachel Smiley",
             "D" => "Mathematician",
@@ -25,7 +27,8 @@ class TransmissionTypeImportTest extends TestCase
             "I" => "Vauxhall",
             "J" => "Corsa",
             "K" => 5.0,
-            "L" => 4.0,];
+            "L" => 4.0,
+        ];
     }
 
     public function testMap()
@@ -37,19 +40,19 @@ class TransmissionTypeImportTest extends TestCase
 
     public function testImportSuccesfull()
     {
-        $import = new TransmissionTypeImport();
+        $import   = new TransmissionTypeImport();
         $imported = $import->import($this->row);
         $this->assertTrue($imported->valid);
         $this->assertEmpty($imported->errors);
         $this->assertNotEmpty($imported->result);
 
-        $this->assertEquals( 'manual', $imported->result->name);
+        $this->assertEquals('manual', $imported->result->name);
     }
 
     public function testImportFails()
     {
-        $import = new TransmissionTypeImport();
-        $imported = $import->import(['name'=>'']);
+        $import   = new TransmissionTypeImport();
+        $imported = $import->import(['name' => '']);
         $this->assertFalse($imported->valid);
         $this->assertNotEmpty($imported->errors);
     }

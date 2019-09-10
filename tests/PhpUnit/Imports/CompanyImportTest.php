@@ -10,12 +10,14 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CompanyImportTest extends TestCase
 {
+
     use DatabaseMigrations;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->row = ["A" => "RS014SR",
+        $this->row = [
+            "A" => "RS014SR",
             "B" => 2015.0,
             "C" => "Rachel Smiley",
             "D" => "Mathematician",
@@ -26,7 +28,8 @@ class CompanyImportTest extends TestCase
             "I" => "Vauxhall",
             "J" => "Corsa",
             "K" => 5.0,
-            "L" => 4.0,];
+            "L" => 4.0,
+        ];
     }
 
     public function testMap()
@@ -38,18 +41,18 @@ class CompanyImportTest extends TestCase
 
     public function testImportSuccesfull()
     {
-        $import = new CompanyImport();
+        $import   = new CompanyImport();
         $imported = $import->import($this->row);
         $this->assertTrue($imported->valid);
         $this->assertEmpty($imported->errors);
         $this->assertNotEmpty($imported->result);
 
-        $this->assertEquals( 'Company', $imported->result->name);
+        $this->assertEquals('Company', $imported->result->name);
     }
 
     public function testImportFails()
     {
-        $import = new CompanyImport();
+        $import   = new CompanyImport();
         $imported = $import->import([]);
         $this->assertFalse($imported->valid);
         $this->assertNotEmpty($imported->errors);
